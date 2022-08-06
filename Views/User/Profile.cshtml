@@ -1,0 +1,79 @@
+﻿@model ApniShop.Models.User
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container">
+ 
+    <div class="form-group row">
+        <div class="col-6 pl-5 pt-2" style="text-align-last:right">
+            <a asp-controller="User" asp-action="Login" class="btn btn-outline-dark">
+                Sign Out
+            </a>
+        </div>
+
+        <div class="col-6 pl-5 pt-2" style="text-align-last:right">
+            <a asp-controller="User" asp-route-Id="@Model.Id" asp-action="Update" class="btn btn-outline-dark">
+                Update Profile
+            </a>
+        </div>
+
+        <div class="col-6 pl-5 pt-2" style="text-align-last:right">
+            <a asp-controller="Product" asp-action="Home" class="btn btn-dark">
+                Product List
+            </a>
+        </div>
+
+
+        @if (Model.Image != null)
+        {
+            <a asp-controller="User" asp-route-Id="@Model.Id" asp-action="DeletePicture" class="btn btn-danger" style="height:50px;">
+                Remove Image
+            </a>
+
+            <img src="/User/GetImage/@Model.Id" alt="" class="profile-image" />
+        }
+        else
+        {
+            @using (Html.BeginForm("Profile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <input type="file" name="ImageData" id="ImageData" />
+                <br />
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Upload" class="btn btn-success" />
+                </div>}
+        }
+
+        <table class="table table-bordered table-striped" style="width:60%">
+            <tbody>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        @Model.Name
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        MobileNo
+                    </th>
+                    <th>
+                        @Model.MobileNo
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        @Model.Email
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
